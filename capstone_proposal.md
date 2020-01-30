@@ -24,6 +24,7 @@ There are two types of data we have to download from external sources, the list 
 Once we have data downloaded from the external sources, we are going to calculate different technical indicator values using the library [talib](https://pypi.org/project/tablib/). We will then choose our window for price change calculation. If we consider N as our window, we will first calculate changes for past 1, 2, 3, ..., N-1 days changes. Following table elaborates it further.
 
 *Downloaded stock price data*
+
 | Date          | Open    | High    | Low     | Close   | Adj. Close | Volume     |
 | --------------- | --------- | --------- | --------- | --------- | ------------ | ------------ |
 | Dec 13, 2019	| 361.05	| 365.21	| 354.64	| 358.39	| 358.39	| 6,570,900 |
@@ -34,6 +35,7 @@ Once we have data downloaded from the external sources, we are going to calculat
 
 
 *With N = 2, we generate changes data*
+
 | Date  | Open  | High  | Low  | Close  | Adj. Close | Volume | N - 1 | N - 2 |
 |-------|-------|-------|------|--------|------------|--------|-------|-------|
 | Dec 13, 2019	| 361.05	| 365.21	| 354.64	| 358.39	| 358.39	| 6,570,900	| 	|  | 
@@ -45,6 +47,7 @@ Once we have data downloaded from the external sources, we are going to calculat
 
 
 *With technical indicators calculated (for example Simple Moving Average, SMA)*
+
 | Date  | Open  | High  | Low  | Close  | Adj. Close | Volume | N - 1 | N - 2 | SMA (9) |
 |-------|-------|-------|------|--------|------------|--------|-------|-------|----------|
 | Dec 13, 2019	| 361.05	| 365.21	| 354.64	| 358.39	| 358.39	| 6,570,900		| 	|  |  | 
@@ -61,6 +64,7 @@ Once we have data downloaded from the external sources, we are going to calculat
 
 
 *Our label is going to be the next day change*
+
 | Date  | Open  | High  | Low  | Close  | Adj. Close | Volume | N - 1 | N - 2 | SMA (14) | Label |
 |-------|-------|-------|------|--------|------------|--------|-------|-------|----------|-------|
 | Dec 13, 2019	| 361.05	| 365.21	| 354.64	| 358.39	| 358.39	| 6,570,900		| 	|  |  |  |
