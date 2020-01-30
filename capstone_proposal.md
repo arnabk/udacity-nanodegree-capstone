@@ -1,7 +1,7 @@
 # Machine Learning Engineer Nanodegree
 ## Capstone Proposal
 Arnab Karmakar  
-Januray 26th, 2020
+Januray 29th, 2020
 
 ## Proposal
 
@@ -10,7 +10,9 @@ Januray 26th, 2020
 Stock market is one of the most competitive financial markets and traders need to compute the financial workloads with low latency and high throughput. In the past, people were using the traditional store and process method to calculate the heavy financial workloads efficiently. However to achieve low latency and high throughput, data-centers were forced to be physically located close to the data sources, instead of other more economically beneficial locations. This is the main reason, the data-streaming model was developed and it can process large amount of data more efficiently. It was shown in studies that using data streaming we can solve the options pricing and risk assessment problems using traditional methods, for example Japanese candlesticks, Monte-Carlo models, Binomial models, with low latency and high throughput. However instead of using those traditional methods, we approached the problems using machine learning techniques. We tried to revolutionize the way people address data processing problems in stock market by predicting the behaviour of the stocks. In fact, if we can predict how the stock will behave in the short-term future we can queue up our transactions earlier and be faster than everyone else. In theory, this allows us to maximize our profit without having the need to be physically located close to the data sources.
 
 We examined two models.
+
 **Model 1** - We used a complete random model using a random number genertor. If the generated number is greater than .5, we buy a stock and if it is less than .5 we sell. We close our position just before the exchange closes for the day.
+
 **Model 2** - We use multiple machine learning algorithms to get the final decision. For example, we will use classification techniques to classify stocks into different buckets (For us, it is 3). Then we train 3 neural networks for these 3 buckets and take position in the market based on confidence levels of predicted values from these networks. Each of those models are applied on real stock market data and checked whether it could return profit.
 
 ### Problem Statement
