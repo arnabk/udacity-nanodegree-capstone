@@ -65,8 +65,8 @@ Once we have data downloaded from the external sources, we are going to calculat
 
 *Our label is going to be the next day change*
 
-| Date  | Open  | High  | Low  | Close  | Adj. Close | Volume | N - 1 | N - 2 | SMA (14) | Label |
-|-------|-------|-------|------|--------|------------|--------|-------|-------|----------|-------|
+| Date          | Open  | High  | Low  | Close  | Adj. Close | Volume | N - 1 | N - 2 | SMA (14) | Label |
+|-------        |-------|-------|------|--------|------------|--------|-------|-------|----------|-------|
 | Dec 13, 2019	| 361.05	| 365.21	| 354.64	| 358.39	| 358.39	| 6,570,900		| 	|  |  |  |
 | Dec 16, 2019	| 362.55	| 383.61	| 362.5	| 381.5	| 381.5	| 18,174,200	| 23.11		| | | -2.51 |
 | Dec 17, 2019	| 378.99	| 385.5	| 375.9	| 378.99	| 378.99	| 8,496,800	| -2.51	| 20.6	| |  14.16	|
@@ -85,6 +85,7 @@ We are going to normalize our data using sklearn's MinMaxScaler.
 
 The number stocks are more than 3000. We are going to discard stocks whose volume is less than 1,000,0000.
 We reach our end result in two steps.
+
 **Step 1** - We will remove the label column and use all the normalized features and pass through different classification models. For example, we could use k-means algorithm to divide the data into 3 buckets. Later, we would analyze the clusters to understand how well the data have been categorized. We will have to do some parameter tuning to reach to our desired value.
 
 **Step 2** - Once data has been categoried, we are going to run 3 recurrent neural network for the 3 clusters. We are going to use following features - 
