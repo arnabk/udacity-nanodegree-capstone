@@ -67,9 +67,9 @@ Once we have data downloaded from the external sources, we are going to calculat
 
 *Our label is going to be the next day change*
 
-| Date          | Open  | High  | Low  | Close  | Adj. Close | Volume | N - 1 | N - 2 | SMA (14) | Label |
+| Date          | Open  | High  | Low  | Close  | Adj. Close | Volume | N - 1 | N - 2 | SMA (9) | Label |
 |-------        |-------|-------|------|--------|------------|--------|-------|-------|----------|-------|
-| Dec 13, 2019	| 361.05	| 365.21	| 354.64	| 358.39	| 358.39	| 6,570,900		| 	|  |  |  |
+| <span style="white-space: nowrap;">Dec 13, 2019</span>	| 361.05	| 365.21	| 354.64	| 358.39	| 358.39	| 6,570,900		| 	|  |  |  |
 | Dec 16, 2019	| 362.55	| 383.61	| 362.5	| 381.5	| 381.5	| 18,174,200	| 23.11		| | | -2.51 |
 | Dec 17, 2019	| 378.99	| 385.5	| 375.9	| 378.99	| 378.99	| 8,496,800	| -2.51	| 20.6	| |  14.16	|
 | Dec 18, 2019	| 380.63	| 395.22	| 380.58	| 393.15	| 393.15	| 14,121,000	| 14.16	| 11.65	|  |  10.89	|
