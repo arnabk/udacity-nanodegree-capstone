@@ -35,7 +35,6 @@ Once we have data downloaded from the external sources, we are going to calculat
 | Dec 18, 2019	| 380.63	| 395.22	| 380.58	| 393.15	| 393.15	| 14,121,000 |
 | Dec 19, 2019	| 397.32	| 406.85	| 396.5	| 404.04	| 404.04	| 18,107,100 |
 
-
 *With N = 2, we generate change data*
 
 | Date  | Open  | High  | Low  | Close  | Adj. Close | Volume | N - 1 | N - 2 |
@@ -46,13 +45,6 @@ Once we have data downloaded from the external sources, we are going to calculat
 | Dec 18, 2019	| 380.63	| 395.22	| 380.58	| 393.15	| 393.15	| 14,121,000	| 14.16	| 11.65 |
 | Dec 19, 2019	| 397.32	| 406.85	| 396.5	| 404.04	| 404.04	| 18,107,100	| 10.89	| 25.05|
 | Dec 20, 2019	| 410.29	| 413	| 400.19	| 405.59	| 405.59	| 14,752,700	| 1.55	| 12.44 |
-
-
-
-<br />
-<br />
-<br />
-<br />
 
 *With technical indicators calculated (for example Simple Moving Average, SMA)*
 
@@ -69,8 +61,6 @@ Once we have data downloaded from the external sources, we are going to calculat
 | Dec 26, 2019	| 427.91	| 433.48	| 426.35	| 430.94	| 430.94	| 10,633,900	| 5.69	| 11.72	| 399.67 |
 | Dec 27, 2019	| 435	| 435.31	| 426.11	| 430.38	| 430.38	| 9,945,700	| -0.56	| 5.13	| 407.67 |
 | Dec 30, 2019	| 428.79	| 429	| 409.26	| 414.7	| 414.7	| 12,586,400	| -15.68	| -16.24	| 411.36 |
-
-<br />
 
 *Our label is going to be the next day change*
 
