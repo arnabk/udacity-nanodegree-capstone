@@ -1,4 +1,4 @@
 # Machine Learning Engineer Nanodegree
-## Specializations
+## Specializations - Stock Prediction
 
 [Proposal](proposal.md)
