@@ -12,15 +12,15 @@ def clustering(data, kmeans_predictor):
 
     assert len(clustering_result) == len(data), "Length mis-match with clustering and input data"
 
-    cluster_category = pd.DataFrame(clustering_result, columns=["cat"])
+    cluster_category = pd.DataFrame(clustering_result, columns=["Cluster"])
     x_train_with_cluster = pd.concat([pd.DataFrame(data), cluster_category], axis=1)
     return cluster_category
 
 # save data to local dir
-def save_data(cluster_data, folder_name, split_data=True):
-    Y = cluster_data[["label"]]
-    X = cluster_data.drop(columns=["label", "cat"])
-    createDir(local_data_folder + 's3/' + folder_name)
+def save_data(cluster_data, folder_name, split_data, local_data_folder):
+    Y = cluster_data[["Label"]]
+    X = cluster_data.drop(columns=["Label"])
+    create_dir(local_data_folder + 's3/' + folder_name)
     if split_data:
         x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=.33, random_state=1, shuffle=True)
         pd.concat([pd.DataFrame(y_train), pd.DataFrame(x_train)], axis=1)\

@@ -4,7 +4,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sagemaker import KMeans
 import os
-from helper.utils import create_dir
+from helper.utils import create_dir, clustering, save_data
 
 def cluster_helper(role, sagemaker_session, bucket, local_data_folder, prefix, ticker):
   A_df = pd.read_pickle(local_data_folder + ticker + '.pkl')
@@ -45,31 +45,26 @@ def cluster_helper(role, sagemaker_session, bucket, local_data_folder, prefix, t
   # upload train and test data to S3
   dataset_with_cluster = pd.concat([pd.DataFrame(y_train, columns=["label"]).astype("float32"), \
             pd.DataFrame(x_train).astype("float32"),\
-            clustering(x_train)
+            clustering(x_train, kmeans_predictor)
             ], axis=1)
   dataset_with_cluster.to_csv('{}s3/{}/all-train.csv'.format(local_data_folder, ticker), header=False, index=False)
   # prepare cluster data sets    
   create_dir('{}s3/{}/train'.format(local_data_folder, ticker))
-  save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 0], "{}/train/cluster-0".format(ticker))
-  save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 1], "{}/train/cluster-1".format(ticker))
-  save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 2], "{}/train/cluster-2".format(ticker))
+  save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 0], "{}/train/cluster-0".format(ticker), True, local_data_folder)
+  save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 1], "{}/train/cluster-1".format(ticker), True, local_data_folder)
+  save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 2], "{}/train/cluster-2".format(ticker), True, local_data_folder)
 
   # We have to predict the clusters for each of the test data sets so that we could use it for testing out next model
   dataset_with_cluster = pd.concat([pd.DataFrame(y_test, columns=["label"]).astype("float32"), \
             pd.DataFrame(x_test).astype("float32"),\
-            clustering(x_test)
+            clustering(x_test, kmeans_predictor)
             ], axis=1)
   dataset_with_cluster.to_csv(local_data_folder + 's3/{}/all-test.csv'.format(ticker), header=False, index=False)
   # # prepare cluster data sets    
-  create_dir('{}s3/{}/test'.format(local_data_folder, ticker))
-  save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 0], "{}/test/cluster-0".format(ticker))
-  save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 1], "{}/test/cluster-1".format(ticker))
-  save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 2], "{}/test/cluster-2".format(ticker))
-
-  # delete endpoint
-  kmeans_predictor.delete_endpoint(kmeans_predictor.endpoint)
-
-  print('Completed clustering for', ticker)
+#   create_dir('{}s3/{}/test'.format(local_data_folder, ticker))
+#   save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 0], "{}/test/cluster-0".format(ticker), False, local_data_folder)
+#   save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 1], "{}/test/cluster-1".format(ticker), False, local_data_folder)
+#   save_data(dataset_with_cluster[dataset_with_cluster["cat"] == 2], "{}/test/cluster-2".format(ticker), False, local_data_folder)
 
   # delete endpoint
   kmeans_predictor.delete_endpoint(kmeans_predictor.endpoint)

@@ -13,7 +13,7 @@ from io import StringIO
 from six import BytesIO
 
 # import model
-from model import NeuralNet
+from model import SimpleNet
 
 # accepts and returns numpy data
 CONTENT_TYPE = 'application/x-npy'
@@ -33,7 +33,7 @@ def model_fn(model_dir):
 
     # Determine the device and construct the model.
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = NeuralNet(model_info['input_dim'], model_info['hidden_dim'], model_info['output_dim'])
+    model = SimpleNet(model_info['input_dim'], model_info['hidden_dim'], model_info['output_dim'])
 
     # Load the stored model parameters.
     model_path = os.path.join(model_dir, 'model.pth')

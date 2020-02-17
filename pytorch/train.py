@@ -13,7 +13,7 @@ import torch.optim as optim
 import torch.utils.data
 
 # import model
-from model import NeuralNet
+from model import SimpleNet
 
 
 def model_fn(model_dir):
@@ -29,7 +29,7 @@ def model_fn(model_dir):
 
     # Determine the device and construct the model.
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = NeuralNet(model_info['input_dim'], 
+    model = SimpleNet(model_info['input_dim'], 
                       model_info['hidden_dim'], 
                       model_info['output_dim'])
 
@@ -79,7 +79,7 @@ def train(model, train_loader, epochs, optimizer, criterion, device):
             # prep data
             data, target = data.to(device), target.to(device)
             optimizer.zero_grad() # zero accumulated gradients
-            # get output of NeuralNet
+            # get output of SimpleNet
             output = model(data)
             # calculate loss and perform backprop
             loss = criterion(output, target)
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     ## TODO:  Build the model by passing in the input params
     # To get params from the parser, call args.argument_name, ex. args.epochs or ards.hidden_dim
     # Don't forget to move your model .to(device) to move to GPU , if appropriate
-    model = NeuralNet(args.input_dim, args.hidden_dim, args.output_dim).to(device)
+    model = SimpleNet(args.input_dim, args.hidden_dim, args.output_dim).to(device)
     
     # Given: save the parameters used to construct the model
     save_model_params(model, args.model_dir)
@@ -172,6 +172,7 @@ if __name__ == '__main__':
     ## TODO: Define an optimizer and loss function for training
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
     criterion = nn.BCELoss()
+
     
     # Trains the model (given line of code, which calls the above training function)
     # This function *also* saves the model state dictionary

@@ -72,24 +72,22 @@ def train(model, train_loader, epochs, optimizer, criterion, device):
     device       - Where the model and data should be loaded (gpu or cpu).
     """
     
-    for epoch in range(1, epochs + 1):
-        model.train()
-        total_loss = 0
-        for batch_idx, (data, target) in enumerate(train_loader, 1):
-            # prep data
-            data, target = data.to(device), target.to(device)
-            optimizer.zero_grad() # zero accumulated gradients
-            # get output of NeuralNet
-            output = model(data)
-            # calculate loss and perform backprop
-            loss = criterion(output, target)
-            loss.backward()
-            optimizer.step()
-    
-            total_loss += loss.item()
-        
-        # print loss stats
-        print("Epoch: {}, Loss: {}".format(epoch, total_loss / len(train_loader)))
+    # training and testing
+    for epoch in range(epochs):
+        for step, (x, y) in enumerate(train_loader):        # gives batch data
+            b_x, b_y = x.to(device), y.to(device)
+
+            output = model(b_x)                               # rnn output
+            loss = loss_func(output, b_y)                   # cross entropy loss
+            optimizer.zero_grad()                           # clear gradients for this training step
+            loss.backward()                                 # backpropagation, compute gradients
+            optimizer.step()                                # apply gradients
+
+            if step % 50 == 0:
+                test_output = rnn(test_x)                   # (samples, time_step, input_size)
+                pred_y = torch.max(test_output, 1)[1].data.numpy().squeeze()
+                accuracy = sum(pred_y == test_y) / float(test_y.size)
+                print('Epoch: ', epoch, '| train loss: %.4f' % loss.data[0], '| test accuracy: %.2f' % accuracy)
 
     # save trained model, after all epochs
     save_model(model, args.model_dir)
@@ -171,7 +169,7 @@ if __name__ == '__main__':
 
     ## TODO: Define an optimizer and loss function for training
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
-    criterion = nn.BCELoss()
+    criterion = nn.MSELoss()
     
     # Trains the model (given line of code, which calls the above training function)
     # This function *also* saves the model state dictionary
