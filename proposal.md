@@ -1,6 +1,6 @@
 # Machine Learning Engineer Nanodegree
 ## Capstone Proposal
-Arnab Karmakar  
+Arnab Karmakar
 Januray 30th, 2020
 
 ## Proposal
@@ -149,3 +149,10 @@ Since each stock behave differently, we are going to use separate classifiers an
 [1](https://pdfs.semanticscholar.org/71ce/112f00b7cbda44f511e754407a3fb5e872be.pdf) Stock Market prediction using Artiﬁcial Neural Networks, Rafael Konstantinou
 
 [2](https://www.duo.uio.no/bitstream/handle/10852/51275/PredictingStocksWithMachineLearning.pdf?sequence=1&isAllowed=y) Predicting Stocks with Machine Learning, Magnus Olden
+
+[3](https://www.investopedia.com/terms/r/randomwalktheory.asp) Random Walk Theory
+
+[4](https://finance.yahoo.com) Yahoo Finance
+
+[5](https://datahub.io/core/nyse-other-listings) DataHub
+

@@ -2,3 +2,4 @@
 ## Specializations - Stock Prediction
 
 [Proposal](proposal.md)
+[Report](report.md)
