@@ -39,7 +39,6 @@ There are two types of data we have to download from external sources, the list 
 |  AA$B  | Alcoa Inc. Depository Shares Representing 1/10th Preferred Convertilble Class B Series 1 |
 |  AAC   |                             AAC Holdings, Inc. Common Stock                              |
 |  AAN   |                                Aaron's, Inc. Common Stock                                |
-| Symbol |                                                Description                                                 |
 | ------ | ---------------------------------------------------------------------------------------------------------- |
 |  ZPIN  |              Zhaopin Limited American Depositary Shares, each reprenting two Ordinary Shares               |
 |  ZQK   |                                       Quiksilver, Inc. Common Stock                                        |
@@ -58,7 +57,6 @@ As we see, there are 3298 tickers. Let's download last traded volume for all the
 |  AAP   | Advance Auto Parts Inc Advance Auto Parts Inc W/I |  1065904.0  |
 |  AAT   |      American Assets Trust, Inc. Common Stock     |   275667.0  |
 |  ABB   |                ABB Ltd Common Stock               |  1777283.0  |
-| Symbol |               Description                | Last Volume |
 | ------ | ---------------------------------------- | ----------- |
 |  WGO   | Winnebago Industries, Inc. Common Stock  |   635929.0  |
 |  WHG   | Westwood Holdings Group Inc Common Stock |   35491.0   |
@@ -77,7 +75,6 @@ Looks like we were able to download data for 1511 tickers. Let's filter our tick
 |  AAP   | Advance Auto Parts Inc Advance Auto Parts Inc W/I |  1065904.0  |
 |  ABB   |                ABB Ltd Common Stock               |  1777283.0  |
 |  ABBV  |              AbbVie Inc. Common Stock             |  8004485.0  |
-| Symbol |                         Description                          | Last Volume |
 | ------ | ------------------------------------------------------------ | ----------- |
 |   W    |              Wayfair Inc. Class A Common Stock               |  2126930.0  |
 |  WAB   | Westinghouse Air Brake Technologies Corporation Common Stock |  1239700.0  |
@@ -235,7 +232,6 @@ It is necessary to understand that the models we selected depend on finding a pa
 |  AMC   | 0.7333333333333333 | 0.7443181818181818 |
 |  ALSN  | 0.6890595009596929 | 0.7204502814258912 |
 |  AMX   | 0.8870588235294118 |  0.87115165336374  |
-| ticker |   test_accuracy    |   train_accuracy   |
 | ------ | ------------------ | ------------------ |
 |  GLW   | 0.8709677419354839 | 0.912280701754386  |
 |  PBI   | 0.9121951219512195 | 0.904040404040404  |
@@ -256,7 +252,6 @@ Trading 64 tickers per day might not be a feasible strategy for most of the reta
 |  VVR   |        1.0         |        1.0         |
 |  BSX   | 0.9607843137254902 | 0.9730941704035876 |
 |  DRH   | 0.9792207792207792 | 0.9816625916870416 |
-| ticker |   test_accuracy    |   train_accuracy   |
 | ------ | -------------------| ------------------ |
 |  GCI   | 0.9170854271356784 | 0.9154664996869128 |
 |   GE   | 0.9186046511627908 | 0.9017160686427456 |
@@ -279,7 +274,6 @@ As mentioned in the beginning of this report, economist believe stock market is 
 |  AMC   | 0.7333333333333333 |    0.3586206896551724   | 0.7443181818181818 |    0.3522727272727273    |
 |  ALSN  | 0.6890595009596929 |    0.3570057581573896   | 0.7204502814258912 |    0.3696060037523452    |
 |  AMX   | 0.8870588235294118 |    0.3694117647058823   |  0.87115165336374  |    0.3899657924743444    |
-| ticker |   test_accuracy    | benchmark_test_accuracy |   train_accuracy   | benchmark_train_accuracy |
 | ------ | ------------------ | ----------------------- | ------------------ | ------------------------ |
 |  GLW   | 0.8709677419354839 |   0.41935483870967744   | 0.912280701754386  |    0.456140350877193     |
 |  PBI   | 0.9121951219512195 |   0.37560975609756103   | 0.904040404040404  |    0.3939393939393939    |
