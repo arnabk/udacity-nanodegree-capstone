@@ -1,7 +1,7 @@
 # Machine Learning Engineer Nanodegree
 ## Capstone Project
 Arnab Karmakar
-Feb 29th, 2020
+March 1st, 2020
 
 ## I. Definition
 
@@ -13,7 +13,7 @@ We examined two models.
 
 **Model 1** - We used a complete random model using a random number genertor. If the generated number is greater than `.7` (inclusive), we buy a stock and if it is less than `.3` (inclusive) we sell. We do nothing if the generated number is between `.3` (exclusive) and `.7`  (exclusive). We close our position just before the exchange closes for the day.
 
-**Model 2** - In this model, we use multiple machine learning algorithms to get the final decision. For example, we will use classification techniques to classify stocks into different buckets (For us, it is three). Then we train three neural networks for these three buckets and take position in the market based on confidence levels of predicted values from these networks. Each of those models are applied on real stock market data and checked whether it could return profit.
+**Model 2** - In this model, we use multiple machine learning algorithms to get the final decision. For example, we will use classification techniques to classify stocks into different buckets (For us, it is three). Then we train three neural networks for these three buckets and take position in the market based on which cluster takes the dominance and what the cluster represents. Each of those models are applied on real stock market data and checked whether it could return profit.
 
 ### Problem Statement
 
@@ -21,18 +21,17 @@ For the concept of this thesis we tried to predict the price of the stock in the
 
 ### Metrics
 
-Our metrics is completely based on number of successful trades. While building the model, we considered a threshold of 40% change as minimum change for taking a trade. For example, model is going to predict BUY if it thinks that the change is going to be 40% higher than the opening price. Similarly, it will predict SELL if the prediction is 40% lower than the opening price. Anything in between will be considered no trade zone. Finally, based on how many of the the above trades are closed successfully, our model will be evaluated for accuracy. More details on model evalution is [here](###Model-Evaluation-and-Validation)
+Our metrics is completely based on number of successful trades. While building the model, we considered a threshold of 40% change as minimum difference for opening a position. For example, model is going to predict BUY if it thinks that the change is going to be 40% higher than the opening price. Similarly, it will predict SELL if the prediction is 40% lower than the opening price. Anything in between will be considered no trading day. Finally, based on how many of the above trades are closed successfully, our model will be evaluated for accuracy. More details on model evalution is [here](#Model-Evaluation-and-Validation)
 
-Economist believe that stock market follows Random Walk theory. Random walk theory suggests that changes in stock prices have the same distribution and are independent of each other. Therefore, it assumes the past movement or trend of a stock price or market cannot be used to predict its future movement. In short, random walk theory proclaims that stocks take a random and unpredictable path that makes all methods of predicting stock prices futile in the long run. Considering that theory, we believe that a random number generator would be best for bench mark evaluation. A benchmark model is described [here](###BenchMark). If our model performs better than random walk based on accuracy as defined above, we would consider our approach as a successful one.
+Economist believe that stock market follows Random Walk theory. The theory suggests that changes in stock prices have the same distribution and are independent of each other. Therefore, it assumes the past movement or trend of a stock price or market cannot be used to predict its future movement. In short, random walk theory proclaims that stocks take a random and unpredictable path that makes all methods of predicting stock prices futile in the long run. Considering that theory, we believe that a random number generator would be best fit for bench mark evaluation. A benchmark model is described [here](#BenchMark). If our model performs better than random walk based on accuracy as defined above, we would consider our approach as a successful one.
 
 
 ## II. Analysis
 
 ### Data Exploration
 
-There are two types of data we have to download from external sources, the list of stocks we want to analyze and then prices for each stock in the given time period for analysis. [DataHub](https://datahub.io/core/nyse-other-listings) provides API to download list of tickers(instruments).
+There are two types of data we have to download from external sources, the list of stocks we want to analyze and prices for each stock in the given time period. [DataHub](https://datahub.io/core/nyse-other-listings) provides API to download list of tickers.
 
-Head:
 | Symbol |                                       Description                                        |
 | ------ | ---------------------------------------------------------------------------------------- |
 |   A    |                         Agilent Technologies, Inc. Common Stock                          |
@@ -40,8 +39,6 @@ Head:
 |  AA$B  | Alcoa Inc. Depository Shares Representing 1/10th Preferred Convertilble Class B Series 1 |
 |  AAC   |                             AAC Holdings, Inc. Common Stock                              |
 |  AAN   |                                Aaron's, Inc. Common Stock                                |
-
-Tail:
 | Symbol |                                                Description                                                 |
 | ------ | ---------------------------------------------------------------------------------------------------------- |
 |  ZPIN  |              Zhaopin Limited American Depositary Shares, each reprenting two Ordinary Shares               |
@@ -52,9 +49,8 @@ Tail:
 
 Shape: (3298, 2)
 
-We collected 3298 tickers. We are now going to download last traded volume for each of these tickers. It is possible that yahoo might not have data for all the tickers. We are going to explore and use data which are available.
+As we see, there are 3298 tickers. Let's download last traded volume for all the tickers. It is possible that either yahoo do not have data for all of them or we might be throttled for downloading large amount of data in this short period of time. However for the purpose of this paper, we could just focus on whatever data we could download.
 
-Head:
 | Symbol |                    Description                    | Last Volume |
 | ------ | ------------------------------------------------- | ----------- |
 |   A    |      Agilent Technologies, Inc. Common Stock      |  1712146.0  |
@@ -62,8 +58,6 @@ Head:
 |  AAP   | Advance Auto Parts Inc Advance Auto Parts Inc W/I |  1065904.0  |
 |  AAT   |      American Assets Trust, Inc. Common Stock     |   275667.0  |
 |  ABB   |                ABB Ltd Common Stock               |  1777283.0  |
-
-Tail:
 | Symbol |               Description                | Last Volume |
 | ------ | ---------------------------------------- | ----------- |
 |  WGO   | Winnebago Industries, Inc. Common Stock  |   635929.0  |
@@ -74,9 +68,8 @@ Tail:
 
 Shape: (1511, 3)
 
-Looks like we were able to download data for 1511 tickers. Let's filter our tickers which has less than 1,000,000 volume. We want to trade stocks which has good liquidity.
+Looks like we were able to download data for 1511 tickers. Let's filter our tickers which has less than 1,000,000 volume. We want to trade stocks which have good liquidity.
 
-Head:
 | Symbol |                    Description                    | Last Volume |
 | ------ | ------------------------------------------------- | ----------- |
 |   A    |      Agilent Technologies, Inc. Common Stock      |  1712146.0  |
@@ -85,7 +78,6 @@ Head:
 |  ABB   |                ABB Ltd Common Stock               |  1777283.0  |
 |  ABBV  |              AbbVie Inc. Common Stock             |  8004485.0  |
 
-Tail:
 | Symbol |                         Description                          | Last Volume |
 | ------ | ------------------------------------------------------------ | ----------- |
 |   W    |              Wayfair Inc. Class A Common Stock               |  2126930.0  |
@@ -98,7 +90,7 @@ Shape: (455, 3)
 
 This leaves us with 455 tickers to deal with. Yahoo finance provides free stock price data. We are going to use pandas_datareader package to download Yahoo finance data for all these tickers. The dataset will provide us Open, High, Low, Close, Adj. Close and Volume data.
 
-We used following script to read all ticker volume downloaded and check to see if any of them are missing data.
+We used following script to find out if there are any missing information in our dataset.
 
     for ticker in tickers:
     df = pd.read_csv('./data/' + ticker + ".csv")
@@ -107,25 +99,27 @@ We used following script to read all ticker volume downloaded and check to see i
 
 `./data` folder have all the ticker information. The stock information for each ticker is stored in <ticker>.csv file.
 
-The above script result no output, indicating there are no dataset with missing information.
+The above script returned no output, indicating there are no dataset with missing information.
 
 ### Exploratory Visualization
 
-Let's look into some of the data downloaded to get an idea if there is any specific pattern that our model could learn. Let's start with ticker AA. Following is the price chart.
+Let's look into some of the data downloaded to get an idea if there are any specific pattern that our model could learn. Let's start with ticker AA. Following is the price chart.
+
 ![AA-chart](./screenshots/AA-chart.png)
 
-You can see that there are areas where the ticker is trading sideways. It is going to be hard to extract a pattern using simple clustering and neural network.
+You could see there are areas where the ticker is trading sideways. Sideways behaviors are hard to learn using simple Neural Networks and so, there is higher probability that our strategy might not work well in this ticker.
 
 Let's now look into data that we could learn easily. STAG is one of the ticker with such data.
+
 ![STAG-chart](./screenshots/STAG-chart.png)
 
 Majority of the data is either trending high or trending low. When we use stratified sample for training, it is possible to get higher accuracy in model prediction.
 
 ### Algorithms and Techniques
 
-After normaizing our data and splitting them into .33% test and rest for training, we reach our end result in two steps.
+After normaizing our data and splitting them into 33% test and rest for training, we reach our end result in two steps.
 
-**Step 1** - We will remove the label column from train data and use all the normalized features and pass through KMeans classification with k=3, indicating BUY, SELL and NONE. In order to select which cluster is going to represent BUY, SELL or NONE, we first cluster the data and then calculate total count of BUY, SELL and NONE in each clusters. The final cluster table might look like this
+**Step 1** - We removed the label column from train data and used all the normalized features and passed through KMeans classification with k=3, indicating BUY, SELL and NONE. In order to select which cluster is going to represent BUY, SELL or NONE, we first cluster the data and then calculate total count of BUY, SELL and NONE in each clusters. The final cluster table might look like this
 
 |   | BUY | SELL | NONE |
 | - | --- | ---- | ---- |
@@ -135,7 +129,7 @@ After normaizing our data and splitting them into .33% test and rest for trainin
 
 From the above table, we see that cluster2 represents highest number for BUY, then cluster1 for SELL and cluster0 for NONE. It is possible that same cluster might be highest for more than one trade direction. In those cases, we will just discard those tickers.
 
-**Step 2** - Once data has been categoried, we are going to run three recurrent neural network for the three clusters. We are going to use following features - 
+**Step 2** - Once data has been categoried, we are going to run three neural networks for the three clusters. We are going to use following features - 
 
     - open
     - high
@@ -150,7 +144,7 @@ From the above table, we see that cluster2 represents highest number for BUY, th
     - STOCH                
     - AD                   
     - ATR     
-    - N  - x (changes each day compared one of the previous days going back upto N days)
+    - N  - x (change of price between current and the day selected by x)
 
 During prediction, data will be passed to all the three networks. Based on which NN prediction has the highest value, we would take the trade in that direction. In the above example, if cluster2's NN has the highest output, we would take BUY position.
 
@@ -160,22 +154,23 @@ Once the models are built, we will test the model with the train data again to c
 
 Trading is a probability game. Our first model is using a random number generator to generate a number between `0` and `1` and taking position based on the value. The goal is to prove that a systemic approach (in this case using machine learning models) yields higher returns as compared to taking position randomly.
 
-If the value of random number generator is less `.3` (inclusive), we will short the stock and close the position before market closes for the day. Similarly, if the generated number is greater than `.7` (inclusive), we will buy the the stock. Any value between `.3` and `.7` will be excluded and no position in market would be taken. The success of this approach is going to be based on how many positive were closed with profit. This data is going to be our benchmark to compare with second model.
+If the value of random number generator is less `.3` (inclusive), we will short the stock and close the position before market closes for the day. Similarly, if the generated number is greater than `.7` (inclusive), we will buy the the stock. Any value between `.3` and `.7` will be excluded and no position in market would be taken. The success of this approach is going to be based on how many trades were closed with profit. This data is going to be our benchmark to compare with our model.
 
 
 ## III. Methodology
 
 ### Data Preprocessing
 
-Our data in data frame is listed as ascending order based on data. The features mentioned above are going to be generated using ta-lib. Different types of technical indicators are used. One of each technical indicator category from Volume, Moving Average, Osscilator, etc are used so that we get a diversified representation of our price data.
+Our data in data frame is listed as ascending order based on date. The features mentioned above are going to be generated using ta-lib. Different types of technical indicators are used. One of each technical indicator category from Volume, Moving Average, Osscilator, etc are used so that we get a diversified representation of our price data.
 
 We also calculated changes upto past 10 days from current price.
 
 `Label` is calculated as
 
-    Label = Next day N - 1, which is change in Adj Close price to next day 
+    Label = Current price - previous day price
+          = N - 1
 
-`direction` is calculated as
+`direction` is calculated as (Using normalized Label data)
 
     direction = Label >= .4, then BUY
               = Label <= -.4, then SELL
@@ -190,49 +185,50 @@ As mentioned above, there are 455 tickers that we have to process. It is not pra
 - Filter our tickers with less than 1,000,000 volume
 - Download open, high, low, close, Adj Close, volume data for the filtered list
 - Calculate N-1,N-2,N-2,N-4,N-5,N-6,N-7,N-8,N-9,N-10 changes for price, where N is the current day. So N-1 would be change for current price from previous day
-- Calculate Label as N-1
+- Calculate Label = N-1
 - Calculate TRIMA, SAR, MACD, RSI, STOCH, AD, ATR indicators
-- One the above steps are complete, we save the information in <ticker>.pkl file
-- At this stage, we should have 455 pkl file with the data we need for our clustering and NN modeling
+- Save the information in <ticker>.pkl file
+- At this stage, we should have 455 pkl file with the data we need for our clustering and neural network modeling
 
-We created few util methods to help us with processing. The process method in ./helpers/utils.py takes a ticker name and does following
+We created few utility methods to help us with processing. The process method in `./helpers/utils.py` takes a ticker name and does following
+
 - Read pkl file
-- Creates Label column as described above
-- Uses MinMaxScaler to normalize data
-- Splits the data into train and test, with test size as 33%
-- Opens a training job in AWS for KMeans
-- Deploys the model in AWS
-- Labels the train and test data using the new cluster information
-- Deletes the KMeans predictor
-- Filters train data into 3 dataset based on 3 clusters
-- Opens 3 training jobs in AWS for PyTorch NN model
-- Deploys the models in AWS
-- Predicts the train and test data using the 3 new NN
-- Categorizes cluster0, cluster1, cluster2 as BUY, SELL and NONE appropriately
-- Generates a random prediction for train and test data
-- Calculates accuracy
-- Saves the accuracy in accuracy.csv file
+- Create Label column as described above
+- Use MinMaxScaler to normalize data
+- Split the data into train and test, with test size as 33%
+- Open a training job in AWS for KMeans
+- Deploy the model in AWS
+- Label the train and test data using the new cluster information
+- Delete the KMeans predictor
+- Filter train data into 3 dataset based on 3 clusters
+- Open 3 training jobs in AWS for PyTorch NN model
+- Deploy the models in AWS
+- Predict the train and test data using the 3 new NN
+- Categorize cluster0, cluster1, cluster2 as BUY, SELL and NONE appropriately
+- Generate a random prediction for train and test data
+- Calculate accuracy
+- Save the accuracy in accuracy.csv file
 
 The above method is looped through all the 455 tickers we filtered before. The accuracy.csv contains details of all the accuracies for different tickers.
 
 ### Refinement
 
-Since we were processing large number of tickers and building models for each ticker separately, a generalized idea of epoch value to select for all the NN training was necessary. We started with 100 first and kept changing the value until we saw little to no change in BCELoss. The final value that we selected was 200.
+Since we were processing and building models for large number of tickers, a generalized epoch value for neural networks for all tickers would be ideal. We started with 100 first and kept changing the value until we saw little to no change in BCELoss. The final value that we selected was 200.
 
-We followed similar process for selecting a value for hidden nodes for NN.
+We followed similar process for selecting a value for hidden nodes for neural network.
 
 ## IV. Results
 
 ### Model Evaluation and Validation
 
-It is necessary to understand that the models we selected depend on finding a pattern. If there are no patterns to learn from, the models are not going to perform well. Keeping this in mind, we decided to filter out tickers where our model perfored really well in training data.
+It is necessary to understand that the models we selected depend on finding a pattern. If there are no patterns to learn from, the models are not going to perform well. Keeping this in mind, we decided to filter out tickers where our model perfored could not perform well in training data.
 
-    accuracy_df = pd.read_csv("./data/accuracy.csv").drop(columns=["benchmark_test_accuracy", "benchmark_train_accuracy"])
+    accuracy_df = pd.read_csv("./data/accuracy.csv").drop(
+      columns=["benchmark_test_accuracy", "benchmark_train_accuracy"])
     accuracy_df = accuracy_df[accuracy_df['train_accuracy'] > .7]
     print(accuracy_df.head())
     print("Shape:", accuracy_df.shape)
 
-Head:
 | ticker |   test_accuracy    |   train_accuracy   |
 | ------ | ------------------ | ------------------ |
 |  ABEV  | 0.8151515151515152 | 0.7828746177370031 |
@@ -240,8 +236,6 @@ Head:
 |  AMC   | 0.7333333333333333 | 0.7443181818181818 |
 |  ALSN  | 0.6890595009596929 | 0.7204502814258912 |
 |  AMX   | 0.8870588235294118 |  0.87115165336374  |
-
-Tail:
 | ticker |   test_accuracy    |   train_accuracy   |
 | ------ | ------------------ | ------------------ |
 |  GLW   | 0.8709677419354839 | 0.912280701754386  |
@@ -252,11 +246,10 @@ Tail:
 
 Shape: (64, 3)
 
-As the above code shows, we filtered all tickers where our model had minimum of 70% success rate. Out of 455 tickers, we now have 64 tickers where our model performed really well on training data. If we look closely, test accuracy is also near by train accuracy. Accuracy of 70% means, 7 out of 10 trades would be winning trade as per our prediction and each day prediction would reseult in minimum of 40% return from opening price. If we were able to enter the market at opening of session and close the trade by end of day, we would hypothetically have 40% return per day. As of Feb 2020, most of the major stock brokers do not charge commission. Considering that fact, this approach seems to be a promising strategy for building portfolio.
+As the above code shows, we filtered out all tickers where model's success rate is less than 70%. Out of 455 tickers, we now have 64 tickers where our model performed really well on training data. If we look closely, test accuracy is also near by train accuracy for these 64 tickers. Accuracy of 70% means, 7 out of 10 trades would be winning trade as per our prediction and each day prediction would reseult in minimum of 40% return from opening price. If we are able to enter the market at opening of session and close the trade by end of day, we would hypothetically have 40% return per day. As of Feb 2020, most of the major stock brokers do not charge commission. Considering that fact, this approach seems to be a promising strategy for building portfolio.
 
 Trading 64 tickers per day might not be a feasible strategy for most of the retail traders. It might be good idea for them to filter the data donw with threshold of 90%, meaning tickers where the model has 90% success rate.
 
-Head:
 | ticker |   test_accuracy    |   train_accuracy   |
 | ------ | ------------------ | ------------------ |
 |  AEG   | 0.9945945945945946 | 0.9974811083123426 |
@@ -264,8 +257,6 @@ Head:
 |  VVR   |        1.0         |        1.0         |
 |  BSX   | 0.9607843137254902 | 0.9730941704035876 |
 |  DRH   | 0.9792207792207792 | 0.9816625916870416 |
-
-Tail:
 | ticker |   test_accuracy    |   train_accuracy   |
 | ------ | -------------------| ------------------ |
 |  GCI   | 0.9170854271356784 | 0.9154664996869128 |
@@ -276,13 +267,12 @@ Tail:
 
 Shape: (21, 3)
 
-With that filter, we are now down to 21 tickers with high accuracy.
+This filter brings the ticker list to 21.
 
 ### Justification
 
-As mentioned at the beginning of this report, economist say that stock market is random walk. Let's have a quick look in our accuracy table.
+As mentioned in the beginning of this report, economist believe stock market is a random walk. Let's have a quick look into our accuracy table which has accuracy from both our model and ramdom strategy.
 
-Head:
 | ticker |   test_accuracy    | benchmark_test_accuracy |   train_accuracy   | benchmark_train_accuracy |
 | ------ | ------------------ | ----------------------- | ------------------ | ------------------------ |
 |  ABEV  | 0.8151515151515152 |    0.4272727272727273   | 0.7828746177370031 |    0.4189602446483181    |
@@ -290,8 +280,6 @@ Head:
 |  AMC   | 0.7333333333333333 |    0.3586206896551724   | 0.7443181818181818 |    0.3522727272727273    |
 |  ALSN  | 0.6890595009596929 |    0.3570057581573896   | 0.7204502814258912 |    0.3696060037523452    |
 |  AMX   | 0.8870588235294118 |    0.3694117647058823   |  0.87115165336374  |    0.3899657924743444    |
-
-Tail:
 | ticker |   test_accuracy    | benchmark_test_accuracy |   train_accuracy   | benchmark_train_accuracy |
 | ------ | ------------------ | ----------------------- | ------------------ | ------------------------ |
 |  GLW   | 0.8709677419354839 |   0.41935483870967744   | 0.912280701754386  |    0.456140350877193     |
@@ -306,28 +294,42 @@ Let's analyze ABEV. We start with train infomration. Our model accuracy is 78% w
 If we continue analyzing other tickers, it clearly shows that our model performed extremly well as compared to taking position completely randomly.
 
 ## V. Conclusion
-_(approx. 1-2 pages)_
 
 ### Free-Form Visualization
-In this section, you will need to provide some form of visualization that emphasizes an important quality about the project. It is much more free-form, but should reasonably support a significant result or characteristic about the problem that you want to discuss. Questions to ask yourself when writing this section:
-- _Have you visualized a relevant or important quality about the problem, dataset, input data, or results?_
-- _Is the visualization thoroughly analyzed and discussed?_
-- _If a plot is provided, are the axes, title, and datum clearly defined?_
+
+We were able to come with a way to successfully predict the stock market and in
+combination with a good trading strategy we were able to profit from stock trading
+using historical data. The reason we used historical data and not real time data
+for testing was time efficiency but also the ability to compare models and trading
+strategies using the same testing data.
+
+How would the model behave with real-time data?
+We treated our historical data as real time data. We can use the same methods and
+be able to predict the stock price in real time.  One of the goals of this thesis was that we should be able to utilize the stock market on real time and all the simulations
+were done in way that would make it easy to transition from historical to real time
+data.
+
+As an investment it can be characterized as
+really profitable. However the neural network cannot predict sudden changes in the
+price that happen during the time that the stock market is closed. An example is
+when a company or their direct competitors announce their term results. Those
+kinds of events can skyrocket the stock price or make it lose considerable value.
 
 ### Reflection
-In this section, you will summarize the entire end-to-end problem solution and discuss one or two particular aspects of the project you found interesting or difficult. You are expected to reflect on the project as a whole to show that you have a firm understanding of the entire process employed in your work. Questions to ask yourself when writing this section:
-- _Have you thoroughly summarized the entire process you used for this project?_
-- _Were there any interesting aspects of the project?_
-- _Were there any difficult aspects of the project?_
-- _Does the final model and solution fit your expectations for the problem, and should it be used in a general setting to solve these types of problems?_
+
+The area we struggled at the beginning was to find out a reasonable optimal for hyperparameters to start with. Spinning AWS instance for every test we were trying to do was time consuming because bootstraping the instances take time.
+
+Once we knew what we would like use in our model, the next challenge was to figure out how we could expedite the process of building models for all the tickers. It is also necessary to ensure that when modeling is complete, we faithfully clean out all AWS resources to avoid recurring charges. On the bright side, having GPU for training these models was the benefit we got from AWS. It took almost 2 days to generate all the models.
 
 ### Improvement
 
+We used one set of model for each ticker. Thereby, we created almost 455 set of models, each set consisting of 4 models. Although at the end, we filtered everything down to 64 tickers with 70% success rate, we could look into each discards models and fine tune parameters to come up with better results.
 
-One algo for all
-Try out LSTM
-Try out XGBoost
-Add NLP, using twitter feed and news processing
+It is also possible that we might be able to combine all these models and create one generalized model which works on all the tickers. This will reduce deployment cost when this strategy is used for real time trading.
+
+Our Neural Network layers are Linear Layer. We could ty LSTM which has show better prediction in time series analysis. We could also try XGBoost where learning is faster than traditional neural network models. The point being, we could try different machine learning models and see which one performs better than others.
+
+Lastly, the strategy that we followed in this paper could further be fine tuned using sentiment analysis. Stock markets react to news and adding that factor in trading model, has proven in past to result in better accuracy.
 
 ## References
 
