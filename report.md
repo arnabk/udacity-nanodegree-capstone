@@ -290,39 +290,35 @@ If we continue analyzing other tickers, it clearly shows that our model performe
 
 ### Free-Form Visualization
 
-We were able to come with a way to successfully predict the stock market and in
-combination with a good trading strategy we were able to profit from stock trading
-using historical data. The reason we used historical data and not real time data
+We were able to build a trading strategy based on historical data and have been able to train machine learning models to trade the market. Not only that, we were able to combine multiple machine learning model to learn patterns in historical data. The reason we used historical data and not real time data
 for testing was time efficiency but also the ability to compare models and trading
 strategies using the same testing data.
 
-How would the model behave with real-time data?
 We treated our historical data as real time data. We can use the same methods and
 be able to predict the stock price in real time.  One of the goals of this thesis was that we should be able to utilize the stock market on real time and all the simulations
 were done in way that would make it easy to transition from historical to real time
 data.
 
-As an investment it can be characterized as
-really profitable. However the neural network cannot predict sudden changes in the
+As an investment it can be characterized as really profitable. However the neural network cannot predict sudden changes in the
 price that happen during the time that the stock market is closed. An example is
 when a company or their direct competitors announce their term results. Those
 kinds of events can skyrocket the stock price or make it lose considerable value.
 
 ### Reflection
 
-The area we struggled at the beginning was to find out a reasonable optimal for hyperparameters to start with. Spinning AWS instance for every test we were trying to do was time consuming because bootstraping the instances take time.
+The area we struggled at the beginning was to find out a reasonable value of hyperparameters to start with. Spinning AWS instance for every test we were trying, was time consuming because bootstraping AWS instances take time.
 
-Once we knew what we would like use in our model, the next challenge was to figure out how we could expedite the process of building models for all the tickers. It is also necessary to ensure that when modeling is complete, we faithfully clean out all AWS resources to avoid recurring charges. On the bright side, having GPU for training these models was the benefit we got from AWS. It took almost 2 days to generate all the models.
+Once we knew what we would like use in our models, the next challenge was to figure out how we could expedite the process of building models for all the tickers. It is also necessary to ensure that when modeling is complete, we faithfully clean out all AWS resources to avoid recurring charges. On the bright side, having GPU for training these models was the benefit we got from AWS. It took almost 2 days to generate all the models.
 
 ### Improvement
 
-We used one set of model for each ticker. Thereby, we created almost 455 set of models, each set consisting of 4 models. Although at the end, we filtered everything down to 64 tickers with 70% success rate, we could look into each discards models and fine tune parameters to come up with better results.
+We used one set of model for each ticker. Thereby, we created almost 455 set of models, each set consisting of 4 models. Although at the end, we filtered everything down to 64 tickers, we could look into each discarded models and fine tune parameters to come up with better results.
 
-It is also possible that we might be able to combine all these models and create one generalized model which works on all the tickers. This will reduce deployment cost when this strategy is used for real time trading.
+It is also possible that we might be able to combine all these models and create one generalized model which works on all the tickers. This will reduce deployment cost when this strategy is used in real time trading. Combining all the models might make this approach more realistic approximation system.
 
-Our Neural Network layers are Linear Layer. We could ty LSTM which has show better prediction in time series analysis. We could also try XGBoost where learning is faster than traditional neural network models. The point being, we could try different machine learning models and see which one performs better than others.
+Our Neural Network layers are Linear Layers. We could try LSTM which has been proven theoritically to produce better results in time series analysis. We could also try XGBoost where learning is faster than traditional neural network models. The point being, we could try different machine learning models and see which one performs better than others.
 
-Lastly, the strategy that we followed in this paper could further be fine tuned using sentiment analysis. Stock markets react to news and adding that factor in trading model, has proven in past to result in better accuracy.
+Lastly, the strategy that we followed in this paper could further be fine tuned using sentiment analysis. Stock markets react to news and adding that factor in trading model could produce even better results.
 
 ## References
 
