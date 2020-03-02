@@ -58,8 +58,8 @@ As we see, there are 3298 tickers. Let's download last traded volume for all the
 |  AAP   | Advance Auto Parts Inc Advance Auto Parts Inc W/I |  1065904.0  |
 |  AAT   |      American Assets Trust, Inc. Common Stock     |   275667.0  |
 |  ABB   |                ABB Ltd Common Stock               |  1777283.0  |
-| Symbol |                    Description                    | Last Volume |
-| ------ | ------------------------------------------------- | ----------- |
+| Symbol |               Description                | Last Volume |
+| ------ | ---------------------------------------- | ----------- |
 |  WGO   | Winnebago Industries, Inc. Common Stock  |   635929.0  |
 |  WHG   | Westwood Holdings Group Inc Common Stock |   35491.0   |
 |  WHR   |    Whirlpool Corporation Common Stock    |   912040.0  |
@@ -77,7 +77,6 @@ Looks like we were able to download data for 1511 tickers. Let's filter our tick
 |  AAP   | Advance Auto Parts Inc Advance Auto Parts Inc W/I |  1065904.0  |
 |  ABB   |                ABB Ltd Common Stock               |  1777283.0  |
 |  ABBV  |              AbbVie Inc. Common Stock             |  8004485.0  |
-
 | Symbol |                         Description                          | Last Volume |
 | ------ | ------------------------------------------------------------ | ----------- |
 |   W    |              Wayfair Inc. Class A Common Stock               |  2126930.0  |
